@@ -11,7 +11,7 @@ const TabNavigation = () => {
     candidates: [],
     startTime: new Date().toISOString(),
     endTime: "",
-    voteMethod: "select1",
+    voteMethod: "SELECT1",
   });
 
   const handleTabClick = (tab) => {

@@ -1,26 +1,33 @@
 import styles from "./header.module.css";
-import { login, logout, onUserStateChange } from "../../service/firebase";
-import { useEffect, useState } from "react";
+import { useAuth } from "../../context";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Header = ({ title }) => {
-  const [user, setUser] = useState();
+const Header = () => {
+  const move = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
+
   useEffect(() => {
-    onUserStateChange(setUser);
+    console.log(user);
   }, [user]);
+
   return (
     <header className={styles.header}>
-      <span className={styles.title}>{title}</span>
-      {title !== "인기투표"
-        ? !user && (
-            <button className={styles.login} onClick={login}>
-              Google login
-            </button>
-          )
-        : ""}
-      {user && (
-        <button className={styles.login} onClick={logout}>
-          Logout
-        </button>
+      <span
+        className={styles.title}
+        onClick={() => move("/", { replace: false })}
+      >
+        인기투표
+      </span>
+      {user ? (
+        <img
+          className={styles.profile}
+          src={user.picture}
+          alt="profile"
+          onClick={logout}
+        />
+      ) : (
+        ""
       )}
     </header>
   );

@@ -2,6 +2,8 @@ import styles from "./uploader.module.css";
 import { firebaseConfig } from "../../service/firebase";
 import Icon from "../icon/icon";
 import Character from "../character/character";
+import GoogleOAuth from "../../common/googleOAuth";
+import api from "../../service/axios";
 import { initializeApp } from "firebase/app";
 import {
   getDownloadURL,
@@ -102,25 +104,18 @@ const Uploader = ({ formData, setFormData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     formData.endTime = new Date(formData.endTime).toISOString();
-    // try {
-    //   const response = await fetch("http://localhost:8090/vote/new", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       // Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Bad response");
-    //   } else {
-    //     alert("Voted!!");
-    //   }
-    // } catch (error) {
-    //   console.error("Failed to register product:", error);
-    //   alert("Failed to register product. Please try again.");
-    // }
+    try {
+      const response = await api.post("/vote/new", formData);
+      if (response.status !== 200) {
+        console.log();
+        throw new Error("Bad response");
+      } else {
+        alert("Voted!!");
+      }
+    } catch (error) {
+      console.error("Failed to register vote:", error);
+      alert("Failed to register vote. Please try again.");
+    }
     console.log(formData);
   };
 
@@ -166,7 +161,7 @@ const Uploader = ({ formData, setFormData }) => {
         </div>
         <div className={styles.inlined}>
           <label htmlFor="voteMethod" className={styles.label}>
-            카테고리
+            투표방식
           </label>
           <select
             name="voteMethod"
@@ -234,10 +229,13 @@ const Uploader = ({ formData, setFormData }) => {
             ))
           )}
         </div>
-
-        <button className={styles.button} type="submit" disabled={uploading}>
-          {!uploading ? "등록하기" : "이미지 업로딩..."}
-        </button>
+        {localStorage.getItem("token") ? (
+          <button className={styles.button} type="submit" disabled={uploading}>
+            투표 등록
+          </button>
+        ) : (
+          <GoogleOAuth />
+        )}
       </form>
     </div>
   );

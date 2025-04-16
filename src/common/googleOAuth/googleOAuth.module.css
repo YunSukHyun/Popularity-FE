@@ -1,0 +1,18 @@
+.sign {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px;
+  border-radius: 4px;
+  border: 0;
+  background-color: white;
+  color: rgb(77, 71, 71);
+  padding: 8px;
+  font-size: 20px;
+  box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.19), 1px 4px 4px rgba(0, 0, 0, 0.23);
+}
+
+.google {
+  width: 28px;
+  height: 28px;
+}
