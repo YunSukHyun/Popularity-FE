@@ -1,12 +1,11 @@
-import styles from "./voteList.module.css"; // Import CSS module
+import styles from "./voteList.module.css";
 import api from "../../service/axios";
-import { timeLeft } from "../../service/timeCalc";
+import Vote from "../vote/vote";
 import { useEffect, useState } from "react";
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState("ongoing");
   const [votes, setVotes] = useState([]);
-
   const fetchVotes = async (type) => {
     try {
       const response = await api.get(`/vote/list?type=${type}`);
@@ -19,6 +18,7 @@ const Tabs = () => {
 
   useEffect(() => {
     fetchVotes("ongoing");
+    // fetchVotes("closed");
   }, []);
 
   return (
@@ -49,16 +49,13 @@ const Tabs = () => {
       </div>
       <section className={styles.votes}>
         {votes.map(({ id, icon, title, endTime, participantCount }) => (
-          <div key={id} className={styles.vote}>
-            <div className={styles.imageContainer}>
-              <img className={styles.voteImg} src={icon} alt="vote" />
-              <div className={styles.overlay}>
-                <p>{title}</p>
-                <p>{`마감까지 ${timeLeft(endTime)}`}</p>
-                <p>{participantCount}</p>
-              </div>
-            </div>
-          </div>
+          <Vote
+            key={id}
+            icon={icon}
+            title={title}
+            endTime={endTime}
+            participantCount={participantCount}
+          />
         ))}
       </section>
     </>

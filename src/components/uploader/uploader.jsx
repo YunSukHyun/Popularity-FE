@@ -155,7 +155,7 @@ const Uploader = ({ formData, setFormData }) => {
             name="endTime"
             onChange={handleChange}
             value={formData.endTime}
-            min={new Date().toISOString().slice(0, 16)} // Set min to current date and time
+            min={new Date().toISOString().slice(0, 16)}
             required
           />
         </div>

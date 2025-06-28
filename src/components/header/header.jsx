@@ -1,15 +1,10 @@
 import styles from "./header.module.css";
 import { useAuth } from "../../context";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const move = useNavigate();
-  const { isAuthenticated, user, logout } = useAuth();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const { user, logout } = useAuth();
 
   return (
     <header className={styles.header}>

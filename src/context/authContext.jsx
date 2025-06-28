@@ -2,18 +2,16 @@ import { AuthContext } from ".";
 import api from "../service/axios";
 import { useEffect, useState } from "react";
 
-// Create Context
-
-// Provider Component
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Check login state on first render
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await api.get("/auth/me"); // API that returns user info if logged in
+        const response = await api.get("/auth/me");
         if (response.status === 200) {
           setIsAuthenticated(true);
           setUser(response.data); // Store user data
@@ -21,13 +19,14 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         setIsAuthenticated(false);
         setUser(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     checkAuth();
   }, []);
 
-  // Logout function
   const logout = async () => {
     try {
       const response = await api.post("/auth/logout");
@@ -41,7 +40,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, setUser, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, setUser, logout, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );

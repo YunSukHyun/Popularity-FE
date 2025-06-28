@@ -20,7 +20,7 @@
 }
 
 .tab.active {
-  background-color: #fff; /* Highlight color for the active tab */
+  background-color: #fff;
   font-weight: bold;
 }
 
@@ -42,58 +42,4 @@
   .votes {
     grid-template-columns: repeat(2, minmax(80px, 1fr));
   }
-}
-
-.vote {
-  display: flex;
-}
-
-.imageContainer {
-  position: relative;
-}
-
-.voteImg {
-  width: 160px;
-  height: 180px;
-  object-fit: cover;
-}
-
-.overlay {
-  position: absolute;
-  bottom: 3px;
-  left: 0;
-  right: 0;
-
-  /* Gradient effect */
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.9),
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0)
-  );
-
-  color: white; /* Text color */
-
-  /* Initially hidden */
-  opacity: 0;
-
-  /* Smooth transition */
-  transition: opacity 0.3s ease-in-out;
-
-  /* Overlay height */
-  height: calc(50%);
-
-  display: flex;
-
-  /* Center content */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.imageContainer:hover .overlay {
-  opacity: 1;
-}
-.overlay p {
-  margin: 4px;
 }

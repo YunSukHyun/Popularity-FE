@@ -1,0 +1,34 @@
+.skeletonImg {
+  width: 160px;
+  height: 180px;
+  background-color: #ccc;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonText {
+  width: 80%;
+  height: 20px;
+  background-color: #aaa;
+  margin: 4px 0;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonTextSmall {
+  width: 60%;
+  height: 14px;
+  background-color: #aaa;
+  margin: 4px 0;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}

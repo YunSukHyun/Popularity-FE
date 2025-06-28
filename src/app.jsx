@@ -22,9 +22,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
-              {/* <Route path="/starrail" element={<Starrail />} />
-            <Route path="/genshin" element={<Genshin />} />
-            <Route path="/priconne" element={<Priconne />} /> */}
               <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
                 <Route path="/admin" element={<Admin />} />
               </Route>
