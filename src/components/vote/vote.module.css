@@ -1,5 +1,6 @@
 .vote {
   display: flex;
+  cursor: pointer;
 }
 
 .imageContainer {
@@ -7,8 +8,8 @@
 }
 
 .voteImg {
-  width: 160px;
-  height: 180px;
+  width: 128px;
+  height: 152px;
   object-fit: cover;
 }
 
@@ -50,7 +51,7 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  font-size: x-large;
+  font-size: large;
 }
 .deadLine {
   font-size: x-small;

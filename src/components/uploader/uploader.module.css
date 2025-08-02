@@ -26,10 +26,6 @@
   justify-content: space-between;
 }
 
-.productForm div {
-  display: flex;
-  width: 100%;
-}
 @media (max-width: 500px) {
   .productForm div {
     flex-direction: column;

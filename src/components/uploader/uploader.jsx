@@ -110,7 +110,7 @@ const Uploader = ({ formData, setFormData }) => {
         console.log();
         throw new Error("Bad response");
       } else {
-        alert("Voted!!");
+        alert("Vote created");
       }
     } catch (error) {
       console.error("Failed to register vote:", error);
@@ -220,15 +220,15 @@ const Uploader = ({ formData, setFormData }) => {
             // value={formData.candidates}
           />
         </div>
-        <div className={styles.images}>
+        <section className={styles.images}>
           {formData.candidates.length === 0 ? (
             <Icon size={"160px"}>image_search</Icon>
           ) : (
             formData.candidates.map(({ name, thumbnail }) => (
-              <Character key={name} thumbnailURL={thumbnail} name={name} />
+              <Character key={name} thumbnail={thumbnail} name={name} />
             ))
           )}
-        </div>
+        </section>
         {localStorage.getItem("token") ? (
           <button className={styles.button} type="submit" disabled={uploading}>
             투표 등록

@@ -7,6 +7,7 @@ import LoginCancel from "./pages/LoginCancel";
 import LoginSuccess from "./pages/LoginSuccess";
 import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
+import VoteDetail from "./pages/VoteDetail";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
               <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
                 <Route path="/admin" element={<Admin />} />
               </Route>
+              <Route path="vote/:id" element={<VoteDetail />} />
             </Route>
             <Route path="/login/cancel" element={<LoginCancel />} />
             <Route path="/login/success" element={<LoginSuccess />} />

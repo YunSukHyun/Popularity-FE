@@ -1,16 +1,8 @@
 import styles from "./characterCard.module.css";
 
 // const CharacterCard = ({ selected, char, game, callback }) => {
-const CharacterCard = ({ url, name }) => {
-  return (
-    <img
-      // src={`image\\${game}_img\\${char}.png`}
-      src={url}
-      // className={selected ? styles.selected : styles.unselected}
-      className={styles.unselected}
-      alt={`${name} 이미지`}
-    />
-  );
+const CharacterCard = ({ selected, url, name }) => {
+  return <img src={url} alt={`${name} 이미지`} className={styles.unselected} />;
 };
 
 export default CharacterCard;

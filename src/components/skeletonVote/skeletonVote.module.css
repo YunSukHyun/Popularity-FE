@@ -1,23 +1,7 @@
 .skeletonImg {
-  width: 160px;
-  height: 180px;
+  width: 128px;
+  height: 152px;
   background-color: #ccc;
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
-.skeletonText {
-  width: 80%;
-  height: 20px;
-  background-color: #aaa;
-  margin: 4px 0;
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
-.skeletonTextSmall {
-  width: 60%;
-  height: 14px;
-  background-color: #aaa;
-  margin: 4px 0;
   animation: pulse 1.5s infinite ease-in-out;
 }
 
