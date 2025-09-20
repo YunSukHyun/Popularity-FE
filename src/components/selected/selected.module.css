@@ -4,6 +4,8 @@
   flex-direction: column;
   flex-basis: 50%;
   background-color: rgba(219, 215, 212, 0.5);
+  overflow-y: auto;
+  max-height: 43vh;
 }
 
 .afterSelect {
@@ -34,9 +36,9 @@
 }
 
 .toServer img {
-  margin: 1em;
-  width: 12em;
-  height: 12em;
+  margin: 4px;
+  width: 126px;
+  height: 147px;
 }
 
 .toServer img:hover {

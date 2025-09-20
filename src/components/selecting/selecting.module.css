@@ -4,13 +4,13 @@
   flex-direction: column;
   flex-basis: 50%;
   background-color: rgb(251, 228, 232, 0.5);
+  max-height: 50vh;
 }
 
 .characters {
   display: flex;
   flex-wrap: wrap;
   max-height: 84vh;
-
   overflow-y: auto;
 }
 

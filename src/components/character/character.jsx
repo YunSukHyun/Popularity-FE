@@ -5,7 +5,7 @@ import CharacterCard from "../characterCard/characterCard";
 const Character = ({ thumbnail, name }) => {
   return (
     <div className={styles.imgBox}>
-      <CharacterCard selected={false} name={name} url={thumbnail} />
+      <CharacterCard name={name} url={thumbnail} />
       <div className={styles.decBox}>{name}</div>
     </div>
   );

@@ -2,10 +2,10 @@ import { SelectContext } from ".";
 import { useState } from "react";
 
 export const SelectProvider = ({ children }) => {
-  const [selected, setSelected] = useState([]);
+  const [selection, setSelection] = useState([]);
 
   return (
-    <SelectContext.Provider value={{ selected, setSelected }}>
+    <SelectContext.Provider value={{ selection, setSelection }}>
       {children}
     </SelectContext.Provider>
   );

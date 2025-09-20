@@ -34,7 +34,7 @@
   display: grid;
   max-width: 1200px;
   gap: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
   grid-template-columns: repeat(4, minmax(80px, 1fr));
 }
 
