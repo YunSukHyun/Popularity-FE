@@ -1,5 +1,6 @@
 import styles from "./header.module.css";
 import { useAuth } from "../../context";
+import Icon from "../icon/icon";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -8,12 +9,8 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <span
-        className={styles.title}
-        onClick={() => move("/", { replace: false })}
-      >
-        인기투표
-      </span>
+      <Icon handleClick={() => move("/", { replace: false })}>home</Icon>
+      <span className={styles.title}>인기투표</span>
       {user ? (
         <img
           className={styles.profile}

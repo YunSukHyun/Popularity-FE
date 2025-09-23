@@ -1,11 +1,10 @@
 import styles from "./selecting.module.css";
+import { useSelect } from "../../context";
 import Character from "../character/character";
 import SkeletonChar from "../skeletonChar/skeletonChar";
-import { useSelect } from "../../context";
 
 const Selecting = ({ voteInfo, loading }) => {
   const { selection } = useSelect();
-  console.log(voteInfo);
   const isSelected = (name) => {
     for (const selected of selection) {
       if (selected.name === name) return true;
@@ -14,7 +13,7 @@ const Selecting = ({ voteInfo, loading }) => {
   };
   return (
     <section className={styles.unselected}>
-      <div className={styles.beforeSelect}>캐릭터</div>
+      <div className={styles.beforeSelect}>후보군</div>
       <div className={styles.characters}>
         {loading
           ? Array.from({ length: 16 }).map((_, idx) => (
@@ -24,7 +23,12 @@ const Selecting = ({ voteInfo, loading }) => {
               isSelected(name) ? (
                 ""
               ) : (
-                <Character key={name} name={name} thumbnail={thumbnail} />
+                <Character
+                  key={name}
+                  name={name}
+                  thumbnail={thumbnail}
+                  voteMethod={voteInfo.voteMethod}
+                />
               )
             )}
       </div>

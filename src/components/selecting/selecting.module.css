@@ -4,7 +4,6 @@
   flex-direction: column;
   flex-basis: 50%;
   background-color: rgb(251, 228, 232, 0.5);
-  max-height: 50vh;
 }
 
 .characters {
@@ -17,8 +16,13 @@
 .beforeSelect {
   width: 100%;
   text-align: center;
-  margin-bottom: 8px;
   padding: 4px;
   font-size: large;
   font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  .unselected {
+    max-height: 50vh;
+  }
 }

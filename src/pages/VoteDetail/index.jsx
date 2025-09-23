@@ -30,6 +30,7 @@ const VoteDetail = () => {
         });
         await Promise.all(preloadImages);
         setVoteInfo(data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching votes:", error);
       } finally {
@@ -49,7 +50,7 @@ const VoteDetail = () => {
       <div className={styles.container}>
         <SelectProvider>
           <Selecting voteInfo={voteInfo} loading={loading} />
-          <Selected />
+          <Selected voteMethod={voteInfo.voteMethod} />
         </SelectProvider>
       </div>
     </section>
