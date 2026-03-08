@@ -13,8 +13,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "types": ["vite/client"],
 
-    /* Linting */
+    /* JS -> TS incremental migration */
+    "allowJs": true,
+    "checkJs": false,
+
+    /* Linting / strictness */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
