@@ -19,11 +19,12 @@ const Selecting = ({ voteInfo, loading }) => {
           ? Array.from({ length: 16 }).map((_, idx) => (
               <SkeletonChar key={idx} />
             ))
-          : voteInfo.candidates.map(({ name, thumbnail }) =>
+          : voteInfo.candidates.map(({ id, name, thumbnail }) =>
               isSelected(name) ? (
                 ""
               ) : (
                 <Character
+                  id={id}
                   key={name}
                   name={name}
                   thumbnail={thumbnail}

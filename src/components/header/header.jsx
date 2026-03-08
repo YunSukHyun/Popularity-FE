@@ -1,6 +1,7 @@
 import styles from "./header.module.css";
 import { useAuth } from "../../context";
 import Icon from "../icon/icon";
+import GoogleOAuthIcon from "../../common/googleOAuthIcon";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -9,7 +10,9 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <Icon handleClick={() => move("/", { replace: false })}>home</Icon>
+      <Icon size={"32px"} handleClick={() => move("/", { replace: false })}>
+        home
+      </Icon>
       <span className={styles.title}>인기투표</span>
       {user ? (
         <img
@@ -19,7 +22,7 @@ const Header = () => {
           onClick={logout}
         />
       ) : (
-        ""
+        <GoogleOAuthIcon />
       )}
     </header>
   );

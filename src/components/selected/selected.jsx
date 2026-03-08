@@ -1,9 +1,19 @@
 import styles from "./selected.module.css";
-import { useSelect } from "../../context";
+import { useAuth, useSelect } from "../../context";
 import CharacterCard from "../characterCard/characterCard";
+import api from "../../service/axios";
 
-const Selected = ({ voteMethod }) => {
+const Selected = ({ voteId, voteMethod }) => {
   const { selection } = useSelect();
+  const { user } = useAuth();
+  const handleSubmit = async () => {
+    const formData = {
+      voteId,
+      candidateIds: selection.map((candidate) => candidate.id),
+    };
+    const reponse = await api.post(`/vote/submit`, formData);
+    console.log(selection, formData);
+  };
 
   return (
     <section className={styles.selected}>
@@ -43,7 +53,7 @@ const Selected = ({ voteMethod }) => {
           )}
         </div>
       </div>
-      <button onClick={() => console.log(selection)}>Good</button>
+      <button onClick={handleSubmit}>제출</button>
     </section>
   );
 };

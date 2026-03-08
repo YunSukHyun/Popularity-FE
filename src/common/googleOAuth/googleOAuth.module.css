@@ -12,6 +12,11 @@
   box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.19), 1px 4px 4px rgba(0, 0, 0, 0.23);
 }
 
+.sign:hover {
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
 .google {
   width: 28px;
   height: 28px;

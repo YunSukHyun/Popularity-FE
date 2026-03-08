@@ -50,7 +50,7 @@ const VoteDetail = () => {
       <div className={styles.container}>
         <SelectProvider>
           <Selecting voteInfo={voteInfo} loading={loading} />
-          <Selected voteMethod={voteInfo.voteMethod} />
+          <Selected voteId={id} voteMethod={voteInfo.voteMethod} />
         </SelectProvider>
       </div>
     </section>

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
         const response = await api.get("/auth/me");
         if (response.status === 200) {
           setIsAuthenticated(true);
-          setUser(response.data); // Store user data
+          setUser(response.data);
         }
       } catch (error) {
         setIsAuthenticated(false);

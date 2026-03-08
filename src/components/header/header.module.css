@@ -6,8 +6,9 @@
   position: relative;
   -webkit-user-select: none;
   user-select: none;
-  justify-content: center; /* Center content */
+  justify-content: space-between;
   align-items: center;
+  padding: 0 12px 0 12px;
   box-shadow: 0px 2px 22px 0px #0000000f;
 }
 
@@ -19,7 +20,5 @@
 .profile {
   border-radius: 50%;
   width: 40px;
-  position: absolute; /* Position it independently */
-  right: 16px; /* Move it to the far right */
   cursor: pointer;
 }
