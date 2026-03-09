@@ -2,10 +2,16 @@ import styles from "./selecting.module.css";
 import { useSelect } from "../../context";
 import Character from "../character/character";
 import SkeletonChar from "../skeletonChar/skeletonChar";
+import type { VoteInfo } from "../../types/vote";
 
-const Selecting = ({ voteInfo, loading }) => {
+interface SelectingProps {
+  voteInfo: VoteInfo | null;
+  loading: boolean;
+}
+
+const Selecting = ({ voteInfo, loading }: SelectingProps) => {
   const { selection } = useSelect();
-  const isSelected = (name) => {
+  const isSelected = (name: string) => {
     for (const selected of selection) {
       if (selected.name === name) return true;
     }
@@ -19,7 +25,7 @@ const Selecting = ({ voteInfo, loading }) => {
           ? Array.from({ length: 16 }).map((_, idx) => (
               <SkeletonChar key={idx} />
             ))
-          : voteInfo.candidates.map(({ id, name, thumbnail }) =>
+          : voteInfo?.candidates.map(({ id, name, thumbnail }) =>
               isSelected(name) ? (
                 ""
               ) : (

@@ -5,18 +5,19 @@ import Selected from "../../components/selected/selected";
 import { SelectProvider } from "../../context/selectContext";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import type { VoteInfo } from "../../types/vote";
 
 const VoteDetail = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [backgroundUrl, setBackgroundUrl] = useState("");
-  const [voteInfo, setVoteInfo] = useState({});
+  const [voteInfo, setVoteInfo] = useState<VoteInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchVoteDetail = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`/vote/detail/${id}`);
+        const response = await api.get<VoteInfo>(`/vote/detail/${id}`);
         const { data } = response;
         setBackgroundUrl(data.background);
 
@@ -50,7 +51,7 @@ const VoteDetail = () => {
       <div className={styles.container}>
         <SelectProvider>
           <Selecting voteInfo={voteInfo} loading={loading} />
-          <Selected voteId={id} voteMethod={voteInfo.voteMethod} />
+          <Selected voteId={id} voteMethod={voteInfo?.voteMethod} />
         </SelectProvider>
       </div>
     </section>

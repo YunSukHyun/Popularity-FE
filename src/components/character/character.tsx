@@ -1,8 +1,15 @@
 import styles from "./character.module.css";
 import CharacterCard from "../characterCard/characterCard";
-// import { useCallback, useState } from "react";
+import type { VoteMethod } from "../../types/vote";
 
-const Character = ({ id, thumbnail, name, voteMethod }) => {
+interface CharacterProps {
+  id: number;
+  name: string;
+  thumbnail: string;
+  voteMethod: VoteMethod;
+}
+
+const Character = ({ id, thumbnail, name, voteMethod }: CharacterProps) => {
   return (
     <div className={styles.imgBox}>
       <CharacterCard

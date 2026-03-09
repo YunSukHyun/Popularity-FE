@@ -1,8 +1,22 @@
-import { DarkModeContext } from ".";
-import { useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-export function DarkModeProvider({ children }) {
-  const [darkMode, setDarkMode] = useState(false);
+interface DarkModeContextValue {
+  darkMode: boolean;
+  toggleDarkMode: () => void;
+}
+
+const DarkModeContext = createContext<DarkModeContextValue | undefined>(
+  undefined
+);
+
+export function DarkModeProvider({ children }: { children: ReactNode }) {
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     updateDarkMode(!darkMode);
@@ -24,7 +38,7 @@ export function DarkModeProvider({ children }) {
   );
 }
 
-function updateDarkMode(darkMode) {
+function updateDarkMode(darkMode: boolean) {
   if (darkMode) {
     document.documentElement.classList.add("dark");
     localStorage.theme = "dark";
@@ -33,3 +47,13 @@ function updateDarkMode(darkMode) {
     localStorage.theme = "light";
   }
 }
+
+export const useDarkMode = () => {
+  const context = useContext(DarkModeContext);
+
+  if (!context) {
+    throw new Error("useDarkMode must be used within DarkModeProvider");
+  }
+
+  return context;
+};

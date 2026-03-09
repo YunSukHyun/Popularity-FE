@@ -1,17 +1,16 @@
 import styles from "./selected.module.css";
-import { useAuth, useSelect } from "../../context";
+import { useSelect } from "../../context";
 import CharacterCard from "../characterCard/characterCard";
-import api from "../../service/axios";
 
 const Selected = ({ voteId, voteMethod }) => {
   const { selection } = useSelect();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const handleSubmit = async () => {
     const formData = {
       voteId,
       candidateIds: selection.map((candidate) => candidate.id),
     };
-    const reponse = await api.post(`/vote/submit`, formData);
+    // const reponse = await api.post(`/vote/submit`, formData);
     console.log(selection, formData);
   };
 
