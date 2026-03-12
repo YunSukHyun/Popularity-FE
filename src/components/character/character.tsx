@@ -3,7 +3,7 @@ import CharacterCard from "../characterCard/characterCard";
 import type { VoteMethod } from "../../types/vote";
 
 interface CharacterProps {
-  id: number;
+  id: string;
   name: string;
   thumbnail: string;
   voteMethod: VoteMethod;

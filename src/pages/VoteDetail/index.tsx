@@ -2,7 +2,6 @@ import styles from "./voteDetail.module.css";
 import api from "../../service/axios";
 import Selecting from "../../components/selecting/selecting";
 import Selected from "../../components/selected/selected";
-import { SelectProvider } from "../../context/selectContext";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { VoteInfo } from "../../types/vote";
@@ -42,6 +41,10 @@ const VoteDetail = () => {
     fetchVoteDetail();
   }, [id]);
 
+  if (!id) {
+    return <div>Invalid vote ID</div>;
+  }
+
   return (
     <section className={styles.main}>
       <div
@@ -49,10 +52,8 @@ const VoteDetail = () => {
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       />
       <div className={styles.container}>
-        <SelectProvider>
-          <Selecting voteInfo={voteInfo} loading={loading} />
-          <Selected voteId={id} voteMethod={voteInfo?.voteMethod} />
-        </SelectProvider>
+        <Selecting voteInfo={voteInfo} loading={loading} />
+        {voteInfo && <Selected voteId={id} voteMethod={voteInfo.voteMethod} />}
       </div>
     </section>
   );

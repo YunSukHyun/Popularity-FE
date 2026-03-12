@@ -4,13 +4,13 @@ import { VoteMethod } from "../../types/vote";
 
 interface CharacterCardProps {
   voteMethod: VoteMethod;
-  id: number;
+  id: string;
   url: string;
   name: string;
 }
 
 interface Character {
-  id: number;
+  id: string;
   name: string;
   url: string;
 }

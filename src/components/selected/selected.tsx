@@ -4,7 +4,7 @@ import CharacterCard from "../characterCard/characterCard";
 import { VoteMethod } from "../../types/vote";
 
 interface SelectedProps {
-  voteId: number;
+  voteId: string;
   voteMethod: VoteMethod;
 }
 
