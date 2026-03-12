@@ -8,11 +8,13 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Role } from "../types/auth";
 
 interface User {
+  picture: string | undefined;
   id: number;
   email: string;
-  role?: string;
+  role: Role;
 }
 
 interface AuthContextValue {

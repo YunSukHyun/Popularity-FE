@@ -1,5 +1,5 @@
 import styles from "./game.module.css";
-import Footer from "../../components/footer/footer";
+import Footer from "../../components/footer(Unused)/footer";
 import Selected from "../../components/selected/selected";
 import Selecting from "../../components/selecting/selecting";
 

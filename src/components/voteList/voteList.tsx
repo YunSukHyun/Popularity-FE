@@ -4,15 +4,25 @@ import Vote from "../vote/vote";
 import SkeletonVote from "../skeletonVote/skeletonVote";
 import { useEffect, useState } from "react";
 
-const Tabs = () => {
-  const [activeTab, setActiveTab] = useState("ongoing");
-  const [votes, setVotes] = useState([]);
-  const [loading, setLoading] = useState(true);
+type VoteTab = "ongoing" | "closed";
 
-  const fetchVotes = async (type) => {
+interface VoteItem {
+  id: number;
+  icon: string;
+  title: string;
+  endTime: string;
+  participantCount: number;
+}
+
+const Tabs = () => {
+  const [activeTab, setActiveTab] = useState<VoteTab>("ongoing");
+  const [votes, setVotes] = useState<VoteItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchVotes = async (type: VoteTab) => {
     setLoading(true);
     try {
-      const response = await api.get(`/vote/list?type=${type}`);
+      const response = await api.get<VoteItem[]>(`/vote/list?type=${type}`);
       const { data } = response;
 
       const preloadImages = data.map(({ icon }) => {

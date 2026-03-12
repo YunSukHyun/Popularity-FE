@@ -42,7 +42,7 @@ const Uploader = ({ formData, setFormData }) => {
             console.log("File available at", url);
             resolve(url);
           });
-        }
+        },
       );
     });
   };
@@ -65,7 +65,7 @@ const Uploader = ({ formData, setFormData }) => {
               console.log("File available at", url);
               resolve({ name: fileItem.name.split(".")[0], thumbnail: url });
             });
-          }
+          },
         );
       });
     });

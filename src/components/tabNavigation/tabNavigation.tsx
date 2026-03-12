@@ -1,10 +1,23 @@
 import styles from "./tabNavigation.module.css"; // Import the module.css file
 import Uploder from "../uploader/uploader";
 import { useState } from "react";
+import { VoteMethod } from "../../types/vote";
+
+type Tab = "Create" | "List" | "Result";
+
+interface FormData {
+  title: string;
+  icon: string;
+  background: string;
+  candidates: any[];
+  startTime: string;
+  endTime: string;
+  voteMethod: VoteMethod;
+}
 
 const TabNavigation = () => {
   const [activeTab, setActiveTab] = useState("Create");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     icon: "",
     background: "",
@@ -14,7 +27,7 @@ const TabNavigation = () => {
     voteMethod: "SELECT1",
   });
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: Tab) => {
     setActiveTab(tab);
   };
 

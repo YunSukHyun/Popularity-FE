@@ -3,7 +3,15 @@ import Icon from "../icon/icon";
 import { timeLeft } from "../../service/timeCalc";
 import { useNavigate } from "react-router-dom";
 
-const Vote = ({ id, icon, title, endTime, participantCount }) => {
+interface VoteProps {
+  id: number;
+  icon: string;
+  title: string;
+  endTime: string;
+  participantCount: number;
+}
+
+const Vote = ({ id, icon, title, endTime, participantCount }: VoteProps) => {
   const navigate = useNavigate();
 
   return (

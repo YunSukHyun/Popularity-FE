@@ -25,25 +25,25 @@ const CharacterCard = ({ voteMethod, id, url, name }: CharacterCardProps) => {
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>
-          prev.filter((char: Character) => char.name !== name)
+          prev.filter((char: Character) => char.name !== name),
         );
       }
-    } else if (voteMethod === "SELECT2") {
+    } else if (voteMethod === "SELECT3") {
       if (!selection.some((char: Character) => char.name === name)) {
         if (selection.length > 1) return;
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>
-          prev.filter((char: Character) => char.name !== name)
+          prev.filter((char: Character) => char.name !== name),
         );
       }
-    } else if (voteMethod === "SELECT3") {
+    } else if (voteMethod === "SELECT6") {
       if (!selection.some((char: Character) => char.name === name)) {
         if (selection.length > 2) return;
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>
-          prev.filter((char: Character) => char.name !== name)
+          prev.filter((char: Character) => char.name !== name),
         );
       }
     } else {

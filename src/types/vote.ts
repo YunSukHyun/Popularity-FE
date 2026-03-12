@@ -1,4 +1,4 @@
-export type VoteMethod = "SELECT1" | "SELECT2" | "SELECT3";
+export type VoteMethod = "SELECT1" | "SELECT3" | "SELECT6";
 
 export interface Candidate {
   id: number;

@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/authContext";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import VoteDetail from "./pages/VoteDetail";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { SelectProvider } from "./context";
 
 function App() {
   return (
@@ -20,17 +21,20 @@ function App() {
             v7_relativeSplatPath: true,
           }}
         >
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
-                <Route path="/admin" element={<Admin />} />
+          <SelectProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
+                  <Route path="/admin" element={<Admin />} />
+                </Route>
+                <Route path="vote/:id" element={<VoteDetail />} />
               </Route>
-              <Route path="vote/:id" element={<VoteDetail />} />
-            </Route>
-            <Route path="/login/cancel" element={<LoginCancel />} />
-            <Route path="/login/success" element={<LoginSuccess />} />
-          </Routes>
+
+              <Route path="/login/cancel" element={<LoginCancel />} />
+              <Route path="/login/success" element={<LoginSuccess />} />
+            </Routes>
+          </SelectProvider>
         </BrowserRouter>
       </div>
     </AuthProvider>
