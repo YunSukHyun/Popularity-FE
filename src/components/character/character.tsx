@@ -3,10 +3,10 @@ import CharacterCard from "../characterCard/characterCard";
 import type { VoteMethod } from "../../types/vote";
 
 interface CharacterProps {
-  id: string;
+  id?: string;
   name: string;
   thumbnail: string;
-  voteMethod: VoteMethod;
+  voteMethod?: VoteMethod;
 }
 
 const Character = ({ id, thumbnail, name, voteMethod }: CharacterProps) => {

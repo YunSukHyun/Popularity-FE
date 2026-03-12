@@ -12,7 +12,7 @@ const GoogleOAuthIcon = () => {
     window.open(
       `${import.meta.env.VITE_BASE_URL}/auth/login/google`,
       "",
-      windowFeatures
+      windowFeatures,
     );
   };
 

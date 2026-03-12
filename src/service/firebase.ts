@@ -5,6 +5,7 @@ import {
   signOut,
   GoogleAuthProvider,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
@@ -31,10 +32,10 @@ export const logout = () => {
   signOut(auth).catch(console.error);
 };
 
-export const onUserStateChange = (callback) => {
+export const onUserStateChange = (callback: (user: User | null) => void) => {
   onAuthStateChanged(auth, async (user) => {
     callback(user);
-    if (user !== null) {
+    if (user !== null && user.email) {
       const userId = user.email.split("@")[0];
       const userRef = await getDoc(doc(db, "users", userId));
       sessionStorage.setItem("user", userId);

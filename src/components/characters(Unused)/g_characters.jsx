@@ -1,6 +1,6 @@
 import styles from "./characters.module.css";
 import Character from "../character/character";
-import * as gLib from "../../library/genshin_library";
+import * as gLib from "../../library(Unused)/genshin_library";
 import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -45,7 +45,7 @@ const GCharacters = ({ game }) => {
                 ""
               ) : (
                 <Character game={game} char={character} key={character} />
-              )
+              ),
             )}
           </span>
         )}
@@ -56,7 +56,7 @@ const GCharacters = ({ game }) => {
                 ""
               ) : (
                 <Character game={game} char={character} key={character} />
-              )
+              ),
             )}
           </span>
         )}

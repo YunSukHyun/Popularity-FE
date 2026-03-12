@@ -12,20 +12,43 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useState } from "react";
+import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 
-const voteMethod = [
+type VoteMethod = "SELECT1" | "SELECT3" | "SELECT6";
+
+interface CandidateItem {
+  name: string;
+  thumbnail: string;
+}
+
+interface FormDataType {
+  title: string;
+  icon: string;
+  background: string;
+  candidates: CandidateItem[];
+  startTime: string;
+  endTime: string;
+  voteMethod: VoteMethod;
+}
+
+interface UploaderProps {
+  formData: FormDataType;
+  setFormData: Dispatch<SetStateAction<FormDataType>>;
+}
+
+const voteMethod: { value: VoteMethod; label: string }[] = [
   { value: "SELECT1", label: "1등만" },
   { value: "SELECT3", label: "1등: 2점, 2등(2명): 1점" },
   { value: "SELECT6", label: "1등: 3점, 2등(2명): 2점, 3등(3명): 1점" },
 ];
 
-const Uploader = ({ formData, setFormData }) => {
-  const [uploading, setUploading] = useState(false);
+const Uploader = ({ formData, setFormData }: UploaderProps) => {
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
 
-  const uploadImage = (file, folder) => {
+  const uploadImage = (file: File, folder: string): Promise<string> => {
     return new Promise((resolve, reject) => {
       const storageRef = ref(storage, `${folder}/${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -47,12 +70,12 @@ const Uploader = ({ formData, setFormData }) => {
     });
   };
 
-  const uploadImages = (images) => {
+  const uploadImages = (images: File[]): Promise<CandidateItem[]> => {
     const uploadPromises = images.map((fileItem) => {
       const storageRef = ref(storage, "candidate/" + fileItem.name);
       const uploadTask = uploadBytesResumable(storageRef, fileItem);
 
-      return new Promise((resolve, reject) => {
+      return new Promise<CandidateItem>((resolve, reject) => {
         uploadTask.on(
           "state_changed",
           () => {},
@@ -73,41 +96,62 @@ const Uploader = ({ formData, setFormData }) => {
     return Promise.all(uploadPromises);
   };
 
-  const changeImage = async (e, folder) => {
-    if (!e.target.files.length) return;
+  const changeImage = async (
+    e: ChangeEvent<HTMLInputElement>,
+    folder: "icon" | "background",
+  ): Promise<void> => {
+    if (!e.target.files || e.target.files.length === 0) return;
 
     setUploading(true);
     const file = e.target.files[0];
+
     try {
       const url = await uploadImage(file, folder);
+
       if (folder === "icon") {
         setFormData((prev) => ({ ...prev, icon: url }));
-      } else if (folder === "background") {
+      } else {
         setFormData((prev) => ({ ...prev, background: url }));
       }
     } catch (error) {
       console.error("Error uploading image:", error);
     }
+
     setUploading(false);
   };
 
-  const changeCandidates = async (e) => {
+  const changeCandidates = async (
+    e: ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
+    if (!e.target.files || e.target.files.length === 0) return;
+
     setUploading(true);
-    const result = await uploadImages(Array.from(e.target.files));
-    setFormData({
-      ...formData,
-      candidates: result,
-    });
+
+    try {
+      const result = await uploadImages(Array.from(e.target.files));
+      setFormData((prev) => ({
+        ...prev,
+        candidates: result,
+      }));
+    } catch (error) {
+      console.error("Error uploading candidates:", error);
+    }
+
     setUploading(false);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    formData.endTime = new Date(formData.endTime).toISOString();
+
+    const requestData: FormDataType = {
+      ...formData,
+      endTime: new Date(formData.endTime).toISOString(),
+    };
+
     try {
-      const response = await api.post("/vote/new", formData);
+      const response = await api.post("/vote/new", requestData);
+
       if (response.status !== 200) {
-        console.log();
         throw new Error("Bad response");
       } else {
         alert("Vote created");
@@ -116,19 +160,25 @@ const Uploader = ({ formData, setFormData }) => {
       console.error("Failed to register vote:", error);
       alert("Failed to register vote. Please try again.");
     }
-    console.log(formData);
+
+    console.log(requestData);
   };
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ): void => {
+    const { id, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
   };
 
   return (
     <div className={styles.container}>
       <section className={styles.h1}>투표 등록</section>
+
       <form onSubmit={handleSubmit} className={styles.productForm}>
         <div className={styles.inlined}>
           <label className={styles.label} htmlFor="title">
@@ -144,6 +194,7 @@ const Uploader = ({ formData, setFormData }) => {
             required
           />
         </div>
+
         <div className={styles.inlined}>
           <label className={styles.label} htmlFor="endTime">
             종료 시간
@@ -159,6 +210,7 @@ const Uploader = ({ formData, setFormData }) => {
             required
           />
         </div>
+
         <div className={styles.inlined}>
           <label htmlFor="voteMethod" className={styles.label}>
             투표방식
@@ -177,6 +229,7 @@ const Uploader = ({ formData, setFormData }) => {
             ))}
           </select>
         </div>
+
         <div className={styles.inlined}>
           <label className={styles.label} htmlFor="icon">
             아이콘
@@ -188,9 +241,9 @@ const Uploader = ({ formData, setFormData }) => {
             id="icon"
             accept="image/*"
             onChange={(e) => changeImage(e, "icon")}
-            // value={formData.icon}
           />
         </div>
+
         <div className={styles.inlined}>
           <label className={styles.label} htmlFor="background">
             배경 사진
@@ -202,9 +255,9 @@ const Uploader = ({ formData, setFormData }) => {
             id="background"
             accept="image/*"
             onChange={(e) => changeImage(e, "background")}
-            // value={formData.background}
           />
         </div>
+
         <div className={styles.inlined}>
           <label className={styles.label} htmlFor="candidates">
             후보
@@ -217,18 +270,24 @@ const Uploader = ({ formData, setFormData }) => {
             multiple
             accept="image/*"
             onChange={changeCandidates}
-            // value={formData.candidates}
           />
         </div>
+
         <section className={styles.images}>
           {formData.candidates.length === 0 ? (
-            <Icon size={"160px"}>image_search</Icon>
+            <Icon size="160px">image_search</Icon>
           ) : (
             formData.candidates.map(({ name, thumbnail }) => (
-              <Character key={name} thumbnail={thumbnail} name={name} />
+              <Character
+                key={name}
+                id={name}
+                thumbnail={thumbnail}
+                name={name}
+              />
             ))
           )}
         </section>
+
         {localStorage.getItem("token") ? (
           <button className={styles.button} type="submit" disabled={uploading}>
             투표 등록
@@ -240,4 +299,5 @@ const Uploader = ({ formData, setFormData }) => {
     </div>
   );
 };
+
 export default Uploader;

@@ -3,8 +3,8 @@ import { useSelect } from "../../context";
 import { VoteMethod } from "../../types/vote";
 
 interface CharacterCardProps {
-  voteMethod: VoteMethod;
-  id: string;
+  voteMethod?: VoteMethod;
+  id?: string;
   url: string;
   name: string;
 }
@@ -18,6 +18,7 @@ interface Character {
 const CharacterCard = ({ voteMethod, id, url, name }: CharacterCardProps) => {
   const { selection, setSelection } = useSelect();
   const handleSelect = () => {
+    if (!id || !voteMethod) return;
     console.log(voteMethod);
     if (voteMethod === "SELECT1") {
       if (!selection.some((char: Character) => char.name === name)) {

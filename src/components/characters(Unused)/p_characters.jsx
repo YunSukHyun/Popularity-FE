@@ -1,6 +1,6 @@
 import styles from "./characters.module.css";
 import Character from "../character/character";
-import * as pLib from "../../library/priconne_library";
+import * as pLib from "../../library(Unused)/priconne_library";
 import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -49,7 +49,7 @@ const PCharacters = ({ game }) => {
                 ""
               ) : (
                 <Character game={game} char={character} key={character} />
-              )
+              ),
             )}
           </span>
         )}
@@ -60,7 +60,7 @@ const PCharacters = ({ game }) => {
                 ""
               ) : (
                 <Character game={game} char={character} key={character} />
-              )
+              ),
             )}
           </span>
         )}
@@ -71,7 +71,7 @@ const PCharacters = ({ game }) => {
                 ""
               ) : (
                 <Character game={game} char={character} key={character} />
-              )
+              ),
             )}
           </span>
         )}
