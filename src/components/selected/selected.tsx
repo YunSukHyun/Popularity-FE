@@ -8,6 +8,12 @@ interface SelectedProps {
   voteMethod: VoteMethod;
 }
 
+const scoreGroups = [
+  { className: styles.score3, range: [0, 1] },
+  { className: styles.score2, range: [1, 3] },
+  { className: styles.score1, range: [3, 6] },
+];
+
 const Selected = ({ voteId, voteMethod }: SelectedProps) => {
   const { selection } = useSelect();
   // const { user } = useAuth();
@@ -24,42 +30,19 @@ const Selected = ({ voteId, voteMethod }: SelectedProps) => {
     <section className={styles.selected}>
       <div className={styles.afterSelect}>나의 선택</div>
       <div className={styles.toServer}>
-        <div className={styles.score3}>
-          {selection[0] ? (
-            <CharacterCard
-              id={selection[0].id}
-              voteMethod={voteMethod}
-              name={selection[0].name}
-              url={selection[0].url}
-            />
-          ) : (
-            ""
-          )}
-        </div>
-        <div className={styles.score2}>
-          {selection[1] ? (
-            <CharacterCard
-              id={selection[1].id}
-              voteMethod={voteMethod}
-              name={selection[1].name}
-              url={selection[1].url}
-            />
-          ) : (
-            ""
-          )}
-        </div>
-        <div className={styles.score1}>
-          {selection[2] ? (
-            <CharacterCard
-              id={selection[2].id}
-              voteMethod={voteMethod}
-              name={selection[2].name}
-              url={selection[2].url}
-            />
-          ) : (
-            ""
-          )}
-        </div>
+        {scoreGroups.map(({ className, range }) => (
+          <div className={className} key={className}>
+            {selection.slice(range[0], range[1]).map((char) => (
+              <CharacterCard
+                key={char.id}
+                id={char.id}
+                voteMethod={voteMethod}
+                name={char.name}
+                url={char.url}
+              />
+            ))}
+          </div>
+        ))}
       </div>
       <button onClick={handleSubmit}>제출</button>
     </section>

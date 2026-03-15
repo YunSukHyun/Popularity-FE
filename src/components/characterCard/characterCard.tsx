@@ -22,7 +22,7 @@ const CharacterCard = ({ voteMethod, id, url, name }: CharacterCardProps) => {
     console.log(voteMethod);
     if (voteMethod === "SELECT1") {
       if (!selection.some((char: Character) => char.name === name)) {
-        if (selection.length > 0) return;
+        if (selection.length >= 0) return;
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>
@@ -31,7 +31,7 @@ const CharacterCard = ({ voteMethod, id, url, name }: CharacterCardProps) => {
       }
     } else if (voteMethod === "SELECT3") {
       if (!selection.some((char: Character) => char.name === name)) {
-        if (selection.length > 1) return;
+        if (selection.length >= 3) return;
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>
@@ -40,7 +40,7 @@ const CharacterCard = ({ voteMethod, id, url, name }: CharacterCardProps) => {
       }
     } else if (voteMethod === "SELECT6") {
       if (!selection.some((char: Character) => char.name === name)) {
-        if (selection.length > 2) return;
+        if (selection.length >= 6) return;
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>
