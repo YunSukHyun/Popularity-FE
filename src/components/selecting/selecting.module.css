@@ -1,32 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Domine&display=swap");
 .unselected {
+  display: flex;
+  flex-direction: column;
   flex-basis: 50%;
-  background-color: rgb(251, 228, 232, 0.8);
+  background-color: rgb(251, 228, 232, 0.5);
+}
+
+.characters {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 84vh;
+  overflow-y: auto;
 }
 
 .beforeSelect {
   width: 100%;
   text-align: center;
-  margin-bottom: 1em;
-  color: brown;
+  padding: 4px;
+  font-size: large;
+  font-weight: bold;
 }
 
-.selected {
-  flex-basis: 50%;
-  background-color: antiquewhite;
-}
-
-.afterSelect {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 1em;
-  color: rgb(199, 8, 8);
-}
-
-.prompt {
-  padding: 1em;
-  user-select: none;
-  font-family: "Domine", serif;
-  font-size: 3em;
-  text-align: center;
+@media screen and (max-width: 600px) {
+  .unselected {
+    max-height: 50vh;
+  }
 }

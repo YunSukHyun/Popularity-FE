@@ -1,0 +1,18 @@
+.outline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid #747775;
+  border-radius: 4px;
+}
+
+.outline:hover {
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.google {
+  width: 28px;
+  height: 28px;
+}

@@ -1,0 +1,35 @@
+.main {
+  width: 100%;
+  height: 93vh;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* 🆕 for background layering */
+  overflow: hidden; /* 🆕 in case image overflows */
+}
+
+.background {
+  position: absolute; /* 🆕 pinned layer */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover; /* 🆕 for fitting */
+  background-position: center;
+  z-index: 0;
+  filter: blur(2px); /* 🆕 optional */
+  pointer-events: none; /* 🆕 prevents interaction blocking */
+}
+
+.container {
+  flex: 1;
+  display: flex;
+  background-repeat: round; /* ✅ keep original */
+  position: relative; /* 🆕 needed for z-index stacking */
+  z-index: 1; /* 🆕 appear above .background */
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+}

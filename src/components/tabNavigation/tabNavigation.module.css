@@ -1,0 +1,28 @@
+.tabs-container {
+  text-align: center;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+
+.tabs section {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tabs section.active {
+  border-bottom: 2px solid darkcyan;
+  color: darkcyan;
+  font-weight: bold;
+}
+
+.tabs section:hover {
+  background-color: #e6e6e6;
+}
+
+.tab-content {
+  margin-top: 16px;
+}

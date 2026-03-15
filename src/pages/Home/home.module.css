@@ -1,49 +1,8 @@
 .home {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  justify-content: center;
+  height: 93vh;
   align-items: center;
-}
-.img {
-  display: flex;
-  justify-content: center;
-  padding-top: 15em;
-}
-.priconne,
-.genshin {
-  height: 32vh;
-  width: 18vw;
-  margin: 1em;
-  opacity: 0.6;
-}
-
-.priconne:hover,
-.genshin:hover {
-  cursor: not-allowed;
-}
-
-.starrail {
-  height: 32vh;
-  width: 18vw;
-  margin: 1em;
-}
-
-.starrail:hover {
-  cursor: pointer;
-  opacity: 0.8;
-}
-
-.user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.sign {
-  margin: 0.5em;
-  border-radius: 50%;
-  background-color: coral;
-  color: white;
-  padding: 0.5em;
-  font-size: 2em;
+  overflow: auto;
+  background-color: #f2f2f2;
 }
