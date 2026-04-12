@@ -1,7 +1,7 @@
 import styles from "./uploader.module.css";
 import { firebaseConfig } from "../../service/firebase";
-import Icon from "../icon/icon";
-import Character from "../character/character";
+import Icon from "../icon";
+import Character from "../character";
 import GoogleOAuth from "../../common/googleOAuth";
 import api from "../../service/axios";
 import { initializeApp } from "firebase/app";

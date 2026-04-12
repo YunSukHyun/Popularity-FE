@@ -1,5 +1,5 @@
 import styles from "./character.module.css";
-import CharacterCard from "../characterCard/characterCard";
+import CharacterCard from "../characterCard";
 import type { SelectedCandidate, VoteMethod } from "../../types/vote";
 import { Dispatch, SetStateAction } from "react";
 

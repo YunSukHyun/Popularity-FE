@@ -1,7 +1,7 @@
 import styles from "./voteList.module.css";
 import api from "../../service/axios";
-import Vote from "../vote/vote";
-import SkeletonVote from "../skeletonVote/skeletonVote";
+import Vote from "../vote";
+import SkeletonVote from "../skeletonVote";
 import { useEffect, useState } from "react";
 
 type VoteTab = "ongoing" | "closed";

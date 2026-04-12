@@ -1,5 +1,5 @@
 import styles from "./tabNavigation.module.css"; // Import the module.css file
-import Uploder from "../uploader/uploader";
+import Uploder from "../uploader";
 import { useState } from "react";
 import { VoteMethod } from "../../types/vote";
 

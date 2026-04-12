@@ -1,5 +1,5 @@
 import styles from "./selected.module.css";
-import CharacterCard from "../characterCard/characterCard";
+import CharacterCard from "../characterCard";
 import { SelectedCandidate, VoteMethod } from "../../types/vote";
 import api from "../../service/axios";
 import { Dispatch, SetStateAction } from "react";
