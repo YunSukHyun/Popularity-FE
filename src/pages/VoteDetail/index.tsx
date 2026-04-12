@@ -4,13 +4,14 @@ import Selecting from "../../components/selecting/selecting";
 import Selected from "../../components/selected/selected";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import type { VoteInfo } from "../../types/vote";
+import type { SelectedCandidate, VoteInfo } from "../../types/vote";
 
 const VoteDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [backgroundUrl, setBackgroundUrl] = useState("");
   const [voteInfo, setVoteInfo] = useState<VoteInfo | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selection, setSelection] = useState<SelectedCandidate[]>([]);
 
   useEffect(() => {
     const fetchVoteDetail = async () => {
@@ -52,8 +53,20 @@ const VoteDetail = () => {
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       />
       <div className={styles.container}>
-        <Selecting voteInfo={voteInfo} loading={loading} />
-        {voteInfo && <Selected voteId={id} voteMethod={voteInfo.voteMethod} />}
+        <Selecting
+          voteInfo={voteInfo}
+          loading={loading}
+          selection={selection}
+          setSelection={setSelection}
+        />
+        {voteInfo && (
+          <Selected
+            voteId={id}
+            voteMethod={voteInfo.voteMethod}
+            selection={selection}
+            setSelection={setSelection}
+          />
+        )}
       </div>
     </section>
   );

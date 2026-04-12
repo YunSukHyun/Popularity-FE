@@ -1,12 +1,14 @@
 import styles from "./characterCard.module.css";
-import { useSelect } from "../../context";
-import { VoteMethod } from "../../types/vote";
+import { SelectedCandidate, VoteMethod } from "../../types/vote";
+import { Dispatch, SetStateAction } from "react";
 
 interface CharacterCardProps {
   voteMethod?: VoteMethod;
   id?: string;
   url: string;
   name: string;
+  selection: SelectedCandidate[];
+  setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
 }
 
 interface Character {
@@ -15,14 +17,21 @@ interface Character {
   url: string;
 }
 
-const CharacterCard = ({ voteMethod, id, url, name }: CharacterCardProps) => {
-  const { selection, setSelection } = useSelect();
+const CharacterCard = ({
+  voteMethod,
+  id,
+  url,
+  name,
+  selection,
+  setSelection,
+}: CharacterCardProps) => {
+  // const { selection, setSelection } = useSelect();
   const handleSelect = () => {
     if (!id || !voteMethod) return;
     console.log(voteMethod);
     if (voteMethod === "SELECT1") {
       if (!selection.some((char: Character) => char.name === name)) {
-        if (selection.length >= 0) return;
+        if (selection.length > 0) return;
         setSelection((prev: Character[]) => [...prev, { id, name, url }]);
       } else {
         setSelection((prev: Character[]) =>

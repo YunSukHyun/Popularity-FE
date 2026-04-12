@@ -1,16 +1,22 @@
 import styles from "./selecting.module.css";
-import { useSelect } from "../../context";
 import Character from "../character/character";
 import SkeletonChar from "../skeletonChar/skeletonChar";
-import type { VoteInfo } from "../../types/vote";
+import type { SelectedCandidate, VoteInfo } from "../../types/vote";
+import { Dispatch, SetStateAction } from "react";
 
 interface SelectingProps {
   voteInfo: VoteInfo | null;
   loading: boolean;
+  selection: SelectedCandidate[];
+  setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
 }
 
-const Selecting = ({ voteInfo, loading }: SelectingProps) => {
-  const { selection } = useSelect();
+const Selecting = ({
+  voteInfo,
+  loading,
+  selection,
+  setSelection,
+}: SelectingProps) => {
   const isSelected = (name: string) => {
     for (const selected of selection) {
       if (selected.name === name) return true;
@@ -35,8 +41,10 @@ const Selecting = ({ voteInfo, loading }: SelectingProps) => {
                   name={name}
                   thumbnail={thumbnail}
                   voteMethod={voteInfo.voteMethod}
+                  selection={selection}
+                  setSelection={setSelection}
                 />
-              )
+              ),
             )}
       </div>
     </section>

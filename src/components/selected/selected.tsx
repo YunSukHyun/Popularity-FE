@@ -1,11 +1,14 @@
 import styles from "./selected.module.css";
-import { useSelect } from "../../context";
 import CharacterCard from "../characterCard/characterCard";
-import { VoteMethod } from "../../types/vote";
+import { SelectedCandidate, VoteMethod } from "../../types/vote";
+import api from "../../service/axios";
+import { Dispatch, SetStateAction } from "react";
 
 interface SelectedProps {
   voteId: string;
   voteMethod: VoteMethod;
+  selection: SelectedCandidate[];
+  setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
 }
 
 const scoreGroups = [
@@ -14,16 +17,21 @@ const scoreGroups = [
   { className: styles.score1, range: [3, 6] },
 ];
 
-const Selected = ({ voteId, voteMethod }: SelectedProps) => {
-  const { selection } = useSelect();
+const Selected = ({
+  voteId,
+  voteMethod,
+  selection,
+  setSelection,
+}: SelectedProps) => {
   // const { user } = useAuth();
   const handleSubmit = async () => {
     const formData = {
       voteId,
       candidateIds: selection.map((candidate) => candidate.id),
     };
-    // const reponse = await api.post(`/vote/submit`, formData);
-    console.log(selection, formData);
+    // const response = await api.post(`/vote/submit`, formData);
+    console.log(selection, formData, voteMethod[6]);
+    // console.log(response);
   };
 
   return (
@@ -39,12 +47,16 @@ const Selected = ({ voteId, voteMethod }: SelectedProps) => {
                 voteMethod={voteMethod}
                 name={char.name}
                 url={char.url}
+                selection={selection}
+                setSelection={setSelection}
               />
             ))}
           </div>
         ))}
       </div>
-      <button onClick={handleSubmit}>제출</button>
+      {Number(voteMethod[6]) === selection.length && (
+        <button onClick={handleSubmit}>제출</button>
+      )}
     </section>
   );
 };
