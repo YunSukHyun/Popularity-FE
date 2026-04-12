@@ -1,6 +1,6 @@
 import styles from "./selecting.module.css";
-import Character from "../character/character";
-import SkeletonChar from "../skeletonChar/skeletonChar";
+import Character from "../character";
+import SkeletonChar from "../skeletonChar";
 import type { SelectedCandidate, VoteInfo } from "../../types/vote";
 import { Dispatch, SetStateAction } from "react";
 

@@ -3,7 +3,7 @@ import GoogleOAuth from "../../common/googleOAuth";
 
 import { useAuth } from "../../context";
 
-import VoteList from "../../components/voteList/voteList";
+import VoteList from "../../components/voteList";
 import { Link } from "react-router-dom";
 
 const Home = () => {

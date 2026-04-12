@@ -1,5 +1,5 @@
 import styles from "./vote.module.css";
-import Icon from "../icon/icon";
+import Icon from "../icon";
 import { timeLeft } from "../../service/timeCalc";
 import { useNavigate } from "react-router-dom";
 

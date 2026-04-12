@@ -1,7 +1,7 @@
 import styles from "./voteDetail.module.css";
 import api from "../../service/axios";
-import Selecting from "../../components/selecting/selecting";
-import Selected from "../../components/selected/selected";
+import Selecting from "../../components/selecting";
+import Selected from "../../components/selected";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { SelectedCandidate, VoteInfo } from "../../types/vote";
