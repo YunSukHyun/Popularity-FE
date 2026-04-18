@@ -19,12 +19,12 @@ const VoteDetail = () => {
       try {
         const response = await api.get<VoteInfo>(`/vote/detail/${id}`);
         const { data } = response;
-        setBackgroundUrl(data.background);
+        setBackgroundUrl(data.backgroundUrl);
 
-        const preloadImages = data.candidates.map(({ thumbnail }) => {
+        const preloadImages = data.candidates.map(({ thumbnailUrl }) => {
           return new Promise((resolve) => {
             const img = new Image();
-            img.src = thumbnail;
+            img.src = thumbnailUrl;
             img.onload = resolve;
             img.onerror = resolve;
           });

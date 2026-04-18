@@ -31,7 +31,7 @@ const Selecting = ({
           ? Array.from({ length: 16 }).map((_, idx) => (
               <SkeletonChar key={idx} />
             ))
-          : voteInfo?.candidates.map(({ id, name, thumbnail }) =>
+          : voteInfo?.candidates.map(({ id, name, thumbnailUrl }) =>
               isSelected(name) ? (
                 ""
               ) : (
@@ -39,7 +39,7 @@ const Selecting = ({
                   id={id}
                   key={name}
                   name={name}
-                  thumbnail={thumbnail}
+                  thumbnailUrl={thumbnailUrl}
                   voteMethod={voteInfo.voteMethod}
                   selection={selection}
                   setSelection={setSelection}

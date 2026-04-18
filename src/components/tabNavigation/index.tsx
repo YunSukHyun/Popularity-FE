@@ -2,6 +2,7 @@ import styles from "./tabNavigation.module.css"; // Import the module.css file
 import Uploder from "../uploader";
 import { useState } from "react";
 import { VoteMethod } from "../../types/vote";
+import AdminVoteList from "../adminVoteList";
 
 type Tab = "Create" | "List" | "Result";
 
@@ -57,7 +58,7 @@ const TabNavigation = () => {
         {activeTab === "Create" && (
           <Uploder formData={formData} setFormData={setFormData} />
         )}
-        {activeTab === "List" && <div>Learn more About us here.</div>}
+        {activeTab === "List" && <AdminVoteList />}
         {activeTab === "Result" && (
           <div>Contact us at example@example.com.</div>
         )}

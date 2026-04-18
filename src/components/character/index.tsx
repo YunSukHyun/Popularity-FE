@@ -6,15 +6,15 @@ import { Dispatch, SetStateAction } from "react";
 interface CharacterProps {
   id?: string;
   name: string;
-  thumbnail: string;
+  thumbnailUrl: string;
   voteMethod?: VoteMethod;
-  selection: SelectedCandidate[];
-  setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
+  selection?: SelectedCandidate[];
+  setSelection?: Dispatch<SetStateAction<SelectedCandidate[]>>;
 }
 
 const Character = ({
   id,
-  thumbnail,
+  thumbnailUrl,
   name,
   voteMethod,
   selection,
@@ -26,7 +26,7 @@ const Character = ({
         voteMethod={voteMethod}
         id={id}
         name={name}
-        url={thumbnail}
+        url={thumbnailUrl}
         selection={selection}
         setSelection={setSelection}
       />

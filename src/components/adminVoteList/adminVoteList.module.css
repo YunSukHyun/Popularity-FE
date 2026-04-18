@@ -1,0 +1,7 @@
+.votes {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+  height: 87vh;
+}

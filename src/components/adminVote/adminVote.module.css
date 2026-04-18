@@ -1,0 +1,47 @@
+.vote {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  height: auto;
+  position: relative;
+  cursor: pointer;
+}
+
+.vote:hover {
+  background-color: #e6e6e6;
+}
+
+.vote > div {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}
+
+.participantCount {
+  display: flex;
+  align-items: center;
+}
+
+.actions {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.actions > button {
+  all: unset;
+}
+
+.actions > button:hover {
+  opacity: 0.5;
+  transition: 100ms;
+}
+
+.vote:hover .actions {
+  opacity: 1;
+  transition: 1s;
+}

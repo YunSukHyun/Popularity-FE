@@ -1,31 +1,20 @@
 import styles from "./uploader.module.css";
-import { firebaseConfig } from "../../service/firebase";
 import Icon from "../icon";
 import Character from "../character";
 import GoogleOAuth from "../../common/googleOAuth";
 import api from "../../service/axios";
-import { initializeApp } from "firebase/app";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 
 type VoteMethod = "SELECT1" | "SELECT3" | "SELECT6";
 
-interface CandidateItem {
+interface CandidatePreviewItem {
   name: string;
   thumbnail: string;
 }
 
 interface FormDataType {
   title: string;
-  icon: string;
-  background: string;
-  candidates: CandidateItem[];
   startTime: string;
   endTime: string;
   voteMethod: VoteMethod;
@@ -44,124 +33,85 @@ const voteMethod: { value: VoteMethod; label: string }[] = [
 
 const Uploader = ({ formData, setFormData }: UploaderProps) => {
   const [uploading, setUploading] = useState<boolean>(false);
+  const [iconFile, setIconFile] = useState<File | null>(null);
+  const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+  const [candidateFiles, setCandidateFiles] = useState<File[]>([]);
 
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
+  const candidatePreviews: CandidatePreviewItem[] = useMemo(() => {
+    return candidateFiles.map((file) => ({
+      name: file.name.includes(".")
+        ? file.name.substring(0, file.name.lastIndexOf("."))
+        : file.name,
+      thumbnail: URL.createObjectURL(file),
+    }));
+  }, [candidateFiles]);
 
-  const uploadImage = (file: File, folder: string): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, `${folder}/${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        () => {},
-        (error) => {
-          console.error("Upload failed:", error);
-          reject(error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log("File available at", url);
-            resolve(url);
-          });
-        },
-      );
-    });
-  };
-
-  const uploadImages = (images: File[]): Promise<CandidateItem[]> => {
-    const uploadPromises = images.map((fileItem) => {
-      const storageRef = ref(storage, "candidate/" + fileItem.name);
-      const uploadTask = uploadBytesResumable(storageRef, fileItem);
-
-      return new Promise<CandidateItem>((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          () => {},
-          (error) => {
-            console.error("Upload failed:", error);
-            reject(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              console.log("File available at", url);
-              resolve({ name: fileItem.name.split(".")[0], thumbnail: url });
-            });
-          },
-        );
-      });
-    });
-
-    return Promise.all(uploadPromises);
-  };
-
-  const changeImage = async (
+  const changeImage = (
     e: ChangeEvent<HTMLInputElement>,
     folder: "icon" | "background",
-  ): Promise<void> => {
+  ): void => {
     if (!e.target.files || e.target.files.length === 0) return;
-
-    setUploading(true);
     const file = e.target.files[0];
 
-    try {
-      const url = await uploadImage(file, folder);
-
-      if (folder === "icon") {
-        setFormData((prev) => ({ ...prev, icon: url }));
-      } else {
-        setFormData((prev) => ({ ...prev, background: url }));
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error);
+    if (folder === "icon") {
+      setIconFile(file);
+    } else {
+      setBackgroundFile(file);
     }
-
-    setUploading(false);
   };
 
-  const changeCandidates = async (
-    e: ChangeEvent<HTMLInputElement>,
-  ): Promise<void> => {
+  const changeCandidates = (e: ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files || e.target.files.length === 0) return;
-
-    setUploading(true);
-
-    try {
-      const result = await uploadImages(Array.from(e.target.files));
-      setFormData((prev) => ({
-        ...prev,
-        candidates: result,
-      }));
-    } catch (error) {
-      console.error("Error uploading candidates:", error);
-    }
-
-    setUploading(false);
+    setCandidateFiles(Array.from(e.target.files));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    if (!iconFile) {
+      alert("아이콘 이미지를 선택해주세요.");
+      return;
+    }
 
-    const requestData: FormDataType = {
-      ...formData,
-      endTime: new Date(formData.endTime).toISOString(),
-    };
+    if (!backgroundFile) {
+      alert("배경 이미지를 선택해주세요.");
+      return;
+    }
+
+    if (candidateFiles.length === 0) {
+      alert("후보 이미지를 하나 이상 선택해주세요.");
+      return;
+    }
+
+    setUploading(true);
 
     try {
+      const requestData = new FormData();
+      requestData.append("title", formData.title);
+      requestData.append("title", formData.title);
+      requestData.append(
+        "startTime",
+        new Date(formData.startTime).toISOString(),
+      );
+      requestData.append("endTime", new Date(formData.endTime).toISOString());
+      requestData.append("voteMethod", formData.voteMethod);
+      requestData.append("icon", iconFile);
+      requestData.append("background", backgroundFile);
+
+      candidateFiles.forEach((file) => {
+        requestData.append("candidateImages", file);
+      });
+
       const response = await api.post("/vote/new", requestData);
 
-      if (response.status !== 200) {
-        throw new Error("Bad response");
-      } else {
-        alert("Vote created");
-      }
+      if (response.status !== 200) throw new Error("Bad response");
+
+      alert("Vote created");
     } catch (error) {
       console.error("Failed to register vote:", error);
       alert("Failed to register vote. Please try again.");
+    } finally {
+      setUploading(false);
     }
-
-    console.log(requestData);
   };
 
   const handleChange = (
@@ -274,14 +224,14 @@ const Uploader = ({ formData, setFormData }: UploaderProps) => {
         </div>
 
         <section className={styles.images}>
-          {formData.candidates.length === 0 ? (
+          {candidatePreviews.length === 0 ? (
             <Icon size="160px">image_search</Icon>
           ) : (
-            formData.candidates.map(({ name, thumbnail }) => (
+            candidatePreviews.map(({ name, thumbnail }) => (
               <Character
                 key={name}
                 id={name}
-                thumbnail={thumbnail}
+                thumbnailUrl={thumbnail}
                 name={name}
               />
             ))

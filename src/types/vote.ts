@@ -3,13 +3,13 @@ export type VoteMethod = "SELECT1" | "SELECT3" | "SELECT6";
 export interface Candidate {
   id: string;
   name: string;
-  thumbnail: string;
+  thumbnailUrl: string;
 }
 
 export interface VoteInfo {
   id: string;
   title: string;
-  background: string;
+  backgroundUrl: string;
   endTime: string;
   voteMethod: VoteMethod;
   candidates: Candidate[];
