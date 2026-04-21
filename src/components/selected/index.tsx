@@ -85,7 +85,9 @@ const Selected = ({
           ))}
         </div>
         {Number(voteMethod[6]) === selection.length && (
-          <button onClick={openConfirmModal}>제출</button>
+          <button className={styles.submitBtn} onClick={openConfirmModal}>
+            제출
+          </button>
         )}
       </section>
       {showConfirm && (

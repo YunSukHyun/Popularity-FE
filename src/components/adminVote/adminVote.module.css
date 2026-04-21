@@ -1,11 +1,12 @@
 .vote {
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
   align-items: center;
-  height: auto;
+  width: 100%;
   position: relative;
   cursor: pointer;
+  padding: 0 48px 0 0;
+  box-sizing: border-box;
 }
 
 .vote:hover {
@@ -15,7 +16,7 @@
 .vote > div {
   display: flex;
   justify-content: center;
-  width: 20%;
+  align-items: center;
 }
 
 .participantCount {

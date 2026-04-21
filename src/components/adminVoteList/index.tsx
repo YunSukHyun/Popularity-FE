@@ -52,30 +52,38 @@ const AdminVoteList = () => {
     fetchVotes();
   }, []);
   return (
-    <section className={styles.votes}>
-      {votes.map(({ id, title, endTime, participantCount }) => (
-        <AdminVote
-          key={id}
-          id={id}
-          title={title}
-          endTime={endTime}
-          participantCount={participantCount}
-          onDelete={openDeleteModal}
-        />
-      ))}
-      {selectedVoteId !== null && (
-        <ConfirmModal
-          message="Are you sure you want to delete this vote?"
-          onConfirm={handleDelete}
-          onCancel={closeDeleteModal}
-        />
-      )}
-      {showAlert && (
-        <AlertModal
-          message="투표가 삭제되었습니다."
-          onClose={() => setShowAlert(false)}
-        />
-      )}
+    <section className={styles.wrapper}>
+      <div className={styles.header}>
+        <div>Title</div>
+        <div>Deadline</div>
+        <div>Participants</div>
+      </div>
+
+      <section className={styles.votes}>
+        {votes.map(({ id, title, endTime, participantCount }) => (
+          <AdminVote
+            key={id}
+            id={id}
+            title={title}
+            endTime={endTime}
+            participantCount={participantCount}
+            onDelete={openDeleteModal}
+          />
+        ))}
+        {selectedVoteId !== null && (
+          <ConfirmModal
+            message="Are you sure you want to delete this vote?"
+            onConfirm={handleDelete}
+            onCancel={closeDeleteModal}
+          />
+        )}
+        {showAlert && (
+          <AlertModal
+            message="투표가 삭제되었습니다."
+            onClose={() => setShowAlert(false)}
+          />
+        )}
+      </section>
     </section>
   );
 };
