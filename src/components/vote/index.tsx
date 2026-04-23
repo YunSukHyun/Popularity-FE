@@ -14,8 +14,14 @@ interface VoteProps {
 const Vote = ({ id, iconUrl, title, endTime, participantCount }: VoteProps) => {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    const isClosed = new Date(endTime).getTime() <= Date.now();
+    if (isClosed) navigate(`/vote/result/${id}`);
+    else navigate(`/vote/ongoing/${id}`);
+  };
+
   return (
-    <div className={styles.vote} onClick={() => navigate(`vote/${id}`)}>
+    <div className={styles.vote} onClick={handleClick}>
       <div className={styles.imageContainer}>
         <img className={styles.voteImg} src={iconUrl} alt="vote" />
         <div className={styles.overlay}>

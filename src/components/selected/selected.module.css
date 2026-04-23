@@ -35,13 +35,13 @@
 .home:hover {
   color: dodgerblue;
 }
-.score3 {
+.first {
   background-color: rgba(212, 175, 55, 0.8);
 }
-.score2 {
+.second {
   background-color: rgba(192, 192, 192, 0.8);
 }
-.score1 {
+.third {
   background-color: rgba(205, 127, 50, 0.8);
 }
 
@@ -54,6 +54,7 @@
 .toServer img:hover {
   opacity: 0.8;
 }
+
 .submitBtn {
   position: relative;
   overflow: hidden;
@@ -138,6 +139,7 @@
     transform: scale(1.15) rotate(12deg);
   }
 }
+
 .warn {
   font-weight: bold;
   font-size: large;

@@ -13,11 +13,29 @@ interface SelectedProps {
   setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
 }
 
-const scoreGroups = [
-  { className: styles.score3, range: [0, 1] },
-  { className: styles.score2, range: [1, 3] },
-  { className: styles.score1, range: [3, 6] },
-];
+const getScoreGroups = (voteMethod: VoteMethod) => {
+  switch (voteMethod) {
+    case "SELECT1":
+      return [{ className: styles.first, range: [0, 1] }];
+
+    case "SELECT3":
+      return [
+        { className: styles.first, range: [0, 1] },
+        { className: styles.second, range: [1, 2] },
+        { className: styles.third, range: [2, 3] },
+      ];
+
+    case "SELECT6":
+      return [
+        { className: styles.first, range: [0, 1] },
+        { className: styles.second, range: [1, 3] },
+        { className: styles.third, range: [3, 6] },
+      ];
+
+    default:
+      return [];
+  }
+};
 
 const Selected = ({
   voteId,
@@ -28,6 +46,8 @@ const Selected = ({
   const [showConfirm, setShowConfirm] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+
+  const scoreGroups = getScoreGroups(voteMethod);
 
   const openConfirmModal = () => {
     setShowConfirm(true);
@@ -84,12 +104,14 @@ const Selected = ({
             </div>
           ))}
         </div>
+
         {Number(voteMethod[6]) === selection.length && (
           <button className={styles.submitBtn} onClick={openConfirmModal}>
             제출
           </button>
         )}
       </section>
+
       {showConfirm && (
         <ConfirmModal
           message="Are you sure you want to submit this vote?"

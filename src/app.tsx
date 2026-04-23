@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 import VoteDetail from "./pages/VoteDetail";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { SelectProvider } from "./context";
+import VoteResult from "./pages/VoteResult";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
                 <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
                   <Route path="/admin" element={<Admin />} />
                 </Route>
-                <Route path="vote/:id" element={<VoteDetail />} />
+                <Route path="vote/ongoing/:id" element={<VoteDetail />} />
+                <Route path="vote/result/:id" element={<VoteResult />} />
               </Route>
 
               <Route path="/login/cancel" element={<LoginCancel />} />

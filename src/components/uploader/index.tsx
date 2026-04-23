@@ -27,7 +27,7 @@ interface UploaderProps {
 
 const voteMethod: { value: VoteMethod; label: string }[] = [
   { value: "SELECT1", label: "1등만" },
-  { value: "SELECT3", label: "1등: 2점, 2등(2명): 1점" },
+  { value: "SELECT3", label: "1등: 2점, 2등: 2점, 3등: 1점" },
   { value: "SELECT6", label: "1등: 3점, 2등(2명): 2점, 3등(3명): 1점" },
 ];
 

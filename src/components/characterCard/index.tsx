@@ -25,7 +25,6 @@ const CharacterCard = ({
   selection,
   setSelection,
 }: CharacterCardProps) => {
-  // const { selection, setSelection } = useSelect();
   const handleSelect = () => {
     if (!id || !voteMethod) return;
     const selectable = !!selection && !!setSelection;
