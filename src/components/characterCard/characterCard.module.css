@@ -2,6 +2,10 @@
   cursor: pointer;
 }
 
+.readonly {
+  cursor: default;
+}
+
 .unselected:hover {
   filter: brightness(90%);
 }

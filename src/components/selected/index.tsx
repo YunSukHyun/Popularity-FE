@@ -5,12 +5,14 @@ import api from "../../service/axios";
 import { Dispatch, SetStateAction, useState } from "react";
 import ConfirmModal from "../../common/ConfirmModal";
 import AlertModal from "../../common/AlertModal";
+import axios from "axios";
 
 interface SelectedProps {
   voteId: string;
   voteMethod: VoteMethod;
   selection: SelectedCandidate[];
   setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
+  alreadyVoted: boolean;
 }
 
 const getScoreGroups = (voteMethod: VoteMethod) => {
@@ -42,6 +44,7 @@ const Selected = ({
   voteMethod,
   selection,
   setSelection,
+  alreadyVoted,
 }: SelectedProps) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -78,8 +81,15 @@ const Selected = ({
       await api.post(`/vote/submit`, formData);
       openAlertModal("성공적으로 투표하였습니다.");
     } catch (error) {
-      console.error("Fail to submit vote: ", error);
-      openAlertModal("투표에 실패하였습니다.");
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          openAlertModal("토큰이 만료되었습니다. 재로그인해주세요.");
+        } else {
+          const message =
+            error.response?.data?.message || "Failed to submit vote.";
+          openAlertModal(message);
+        }
+      }
     }
   };
 
@@ -99,6 +109,7 @@ const Selected = ({
                   url={char.url}
                   selection={selection}
                   setSelection={setSelection}
+                  readonly={alreadyVoted}
                 />
               ))}
             </div>
@@ -106,8 +117,12 @@ const Selected = ({
         </div>
 
         {Number(voteMethod[6]) === selection.length && (
-          <button className={styles.submitBtn} onClick={openConfirmModal}>
-            제출
+          <button
+            className={alreadyVoted ? styles.voted : styles.submitBtn}
+            onClick={openConfirmModal}
+            disabled={alreadyVoted}
+          >
+            {alreadyVoted ? "투표 완료" : "제출"}
           </button>
         )}
       </section>

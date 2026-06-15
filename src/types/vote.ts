@@ -13,6 +13,8 @@ export interface VoteInfo {
   endTime: string;
   voteMethod: VoteMethod;
   candidates: Candidate[];
+  alreadyVoted: boolean;
+  mySelections: Candidate[];
 }
 
 export interface VoteListItem {
@@ -21,6 +23,13 @@ export interface VoteListItem {
   icon: string;
   endTime: string;
   participantCount: number;
+}
+
+export interface VoteResultItem {
+  candidateId: number;
+  candidateName: string;
+  thumbnailUrl: string;
+  totalScore: number;
 }
 
 export interface SelectedCandidate {

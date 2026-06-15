@@ -9,6 +9,7 @@ interface CharacterCardProps {
   name: string;
   selection?: SelectedCandidate[];
   setSelection?: Dispatch<SetStateAction<SelectedCandidate[]>>;
+  readonly?: boolean;
 }
 
 interface Character {
@@ -24,8 +25,12 @@ const CharacterCard = ({
   name,
   selection,
   setSelection,
+  readonly = false,
 }: CharacterCardProps) => {
+  const isSelected =
+    !!selection && selection.some((char: Character) => char.name === name);
   const handleSelect = () => {
+    if (readonly) return;
     if (!id || !voteMethod) return;
     const selectable = !!selection && !!setSelection;
     if (selectable) {
@@ -67,7 +72,9 @@ const CharacterCard = ({
       onClick={handleSelect}
       src={url}
       alt={`${name} image`}
-      className={styles.unselected}
+      className={`${isSelected ? styles.selected : styles.unselected} ${
+        readonly ? styles.readonly : ""
+      }`}
     />
   );
 };

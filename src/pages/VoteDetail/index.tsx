@@ -32,6 +32,16 @@ const VoteDetail = () => {
         await Promise.all(preloadImages);
         setVoteInfo(data);
         console.log(data);
+
+        if (data.alreadyVoted) {
+          setSelection(
+            data.mySelections.map((candidate) => ({
+              id: candidate.id,
+              name: candidate.name,
+              url: candidate.thumbnailUrl,
+            })),
+          );
+        }
       } catch (error) {
         console.error("Error fetching votes:", error);
       } finally {
@@ -65,6 +75,7 @@ const VoteDetail = () => {
             voteMethod={voteInfo.voteMethod}
             selection={selection}
             setSelection={setSelection}
+            alreadyVoted={voteInfo.alreadyVoted}
           />
         )}
       </div>
