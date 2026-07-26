@@ -1,23 +1,29 @@
 import styles from "./vote.module.css";
-import Icon from "../icon/icon";
+import Icon from "../icon";
 import { timeLeft } from "../../service/timeCalc";
 import { useNavigate } from "react-router-dom";
 
 interface VoteProps {
   id: number;
-  icon: string;
+  iconUrl: string;
   title: string;
   endTime: string;
   participantCount: number;
 }
 
-const Vote = ({ id, icon, title, endTime, participantCount }: VoteProps) => {
+const Vote = ({ id, iconUrl, title, endTime, participantCount }: VoteProps) => {
   const navigate = useNavigate();
 
+  const handleClick = () => {
+    const isClosed = new Date(endTime).getTime() <= Date.now();
+    if (isClosed) navigate(`/vote/result/${id}`);
+    else navigate(`/vote/ongoing/${id}`);
+  };
+
   return (
-    <div className={styles.vote} onClick={() => navigate(`vote/${id}`)}>
+    <div className={styles.vote} onClick={handleClick}>
       <div className={styles.imageContainer}>
-        <img className={styles.voteImg} src={icon} alt="vote" />
+        <img className={styles.voteImg} src={iconUrl} alt="vote" />
         <div className={styles.overlay}>
           <div className={styles.title}>
             <p>{title}</p>

@@ -1,0 +1,82 @@
+import styles from "./characterCard.module.css";
+import { SelectedCandidate, VoteMethod } from "../../types/vote";
+import { Dispatch, SetStateAction } from "react";
+
+interface CharacterCardProps {
+  voteMethod?: VoteMethod;
+  id?: string;
+  url: string;
+  name: string;
+  selection?: SelectedCandidate[];
+  setSelection?: Dispatch<SetStateAction<SelectedCandidate[]>>;
+  readonly?: boolean;
+}
+
+interface Character {
+  id: string;
+  name: string;
+  url: string;
+}
+
+const CharacterCard = ({
+  voteMethod,
+  id,
+  url,
+  name,
+  selection,
+  setSelection,
+  readonly = false,
+}: CharacterCardProps) => {
+  const isSelected =
+    !!selection && selection.some((char: Character) => char.name === name);
+  const handleSelect = () => {
+    if (readonly) return;
+    if (!id || !voteMethod) return;
+    const selectable = !!selection && !!setSelection;
+    if (selectable) {
+      if (voteMethod === "SELECT1") {
+        if (!selection.some((char: Character) => char.name === name)) {
+          if (selection.length > 0) return;
+          setSelection((prev: Character[]) => [...prev, { id, name, url }]);
+        } else {
+          setSelection((prev: Character[]) =>
+            prev.filter((char: Character) => char.name !== name),
+          );
+        }
+      } else if (voteMethod === "SELECT3") {
+        if (!selection.some((char: Character) => char.name === name)) {
+          if (selection.length >= 3) return;
+          setSelection((prev: Character[]) => [...prev, { id, name, url }]);
+        } else {
+          setSelection((prev: Character[]) =>
+            prev.filter((char: Character) => char.name !== name),
+          );
+        }
+      } else if (voteMethod === "SELECT6") {
+        if (!selection.some((char: Character) => char.name === name)) {
+          if (selection.length >= 6) return;
+          setSelection((prev: Character[]) => [...prev, { id, name, url }]);
+        } else {
+          setSelection((prev: Character[]) =>
+            prev.filter((char: Character) => char.name !== name),
+          );
+        }
+      }
+    } else {
+      // display only
+    }
+  };
+
+  return (
+    <img
+      onClick={handleSelect}
+      src={url}
+      alt={`${name} image`}
+      className={`${isSelected ? styles.selected : styles.unselected} ${
+        readonly ? styles.readonly : ""
+      }`}
+    />
+  );
+};
+
+export default CharacterCard;

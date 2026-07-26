@@ -1,5 +1,5 @@
 import styles from "./admin.module.css";
-import TabNavigation from "../../components/tabNavigation/tabNavigation";
+import TabNavigation from "../../components/tabNavigation";
 
 const Admin = () => {
   return (

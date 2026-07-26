@@ -1,6 +1,6 @@
 import styles from "./header.module.css";
 import { useAuth } from "../../context";
-import Icon from "../icon/icon";
+import Icon from "../icon";
 import GoogleOAuthIcon from "../../common/googleOAuthIcon";
 import { useNavigate } from "react-router-dom";
 

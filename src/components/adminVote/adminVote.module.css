@@ -1,0 +1,48 @@
+.vote {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+  padding: 0 48px 0 0;
+  box-sizing: border-box;
+}
+
+.vote:hover {
+  background-color: #e6e6e6;
+}
+
+.vote > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.participantCount {
+  display: flex;
+  align-items: center;
+}
+
+.actions {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.actions > button {
+  all: unset;
+}
+
+.actions > button:hover {
+  opacity: 0.5;
+  transition: 100ms;
+}
+
+.vote:hover .actions {
+  opacity: 1;
+  transition: 1s;
+}

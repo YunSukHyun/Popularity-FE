@@ -14,6 +14,7 @@ interface User {
   picture: string | undefined;
   id: number;
   email: string;
+  name: string;
   role: Role;
 }
 

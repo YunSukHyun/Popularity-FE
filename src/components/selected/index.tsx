@@ -1,0 +1,145 @@
+import styles from "./selected.module.css";
+import CharacterCard from "../characterCard";
+import { SelectedCandidate, VoteMethod } from "../../types/vote";
+import api from "../../service/axios";
+import { Dispatch, SetStateAction, useState } from "react";
+import ConfirmModal from "../../common/ConfirmModal";
+import AlertModal from "../../common/AlertModal";
+import axios from "axios";
+
+interface SelectedProps {
+  voteId: string;
+  voteMethod: VoteMethod;
+  selection: SelectedCandidate[];
+  setSelection: Dispatch<SetStateAction<SelectedCandidate[]>>;
+  alreadyVoted: boolean;
+}
+
+const getScoreGroups = (voteMethod: VoteMethod) => {
+  switch (voteMethod) {
+    case "SELECT1":
+      return [{ className: styles.first, range: [0, 1] }];
+
+    case "SELECT3":
+      return [
+        { className: styles.first, range: [0, 1] },
+        { className: styles.second, range: [1, 2] },
+        { className: styles.third, range: [2, 3] },
+      ];
+
+    case "SELECT6":
+      return [
+        { className: styles.first, range: [0, 1] },
+        { className: styles.second, range: [1, 3] },
+        { className: styles.third, range: [3, 6] },
+      ];
+
+    default:
+      return [];
+  }
+};
+
+const Selected = ({
+  voteId,
+  voteMethod,
+  selection,
+  setSelection,
+  alreadyVoted,
+}: SelectedProps) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  const scoreGroups = getScoreGroups(voteMethod);
+
+  const openConfirmModal = () => {
+    setShowConfirm(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowConfirm(false);
+  };
+
+  const openAlertModal = (message: string) => {
+    setAlertMessage(message);
+    setShowAlert(true);
+  };
+
+  const closeAlertModal = () => {
+    setShowAlert(false);
+    setAlertMessage("");
+  };
+
+  const handleSubmit = async () => {
+    closeConfirmModal();
+
+    try {
+      const formData = {
+        voteId,
+        candidateIds: selection.map((candidate) => candidate.id),
+      };
+      await api.post(`/vote/submit`, formData);
+      openAlertModal("성공적으로 투표하였습니다.");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          openAlertModal("토큰이 만료되었습니다. 재로그인해주세요.");
+        } else {
+          const message =
+            error.response?.data?.message || "Failed to submit vote.";
+          openAlertModal(message);
+        }
+      }
+    }
+  };
+
+  return (
+    <>
+      <section className={styles.selected}>
+        <div className={styles.afterSelect}>나의 선택</div>
+        <div className={styles.toServer}>
+          {scoreGroups.map(({ className, range }) => (
+            <div className={className} key={className}>
+              {selection.slice(range[0], range[1]).map((char) => (
+                <CharacterCard
+                  key={char.id}
+                  id={char.id}
+                  voteMethod={voteMethod}
+                  name={char.name}
+                  url={char.url}
+                  selection={selection}
+                  setSelection={setSelection}
+                  readonly={alreadyVoted}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {Number(voteMethod[6]) === selection.length && (
+          <button
+            className={alreadyVoted ? styles.voted : styles.submitBtn}
+            onClick={openConfirmModal}
+            disabled={alreadyVoted}
+          >
+            {alreadyVoted ? "투표 완료" : "제출"}
+          </button>
+        )}
+      </section>
+
+      {showConfirm && (
+        <ConfirmModal
+          message="Are you sure you want to submit this vote?"
+          onConfirm={handleSubmit}
+          onCancel={closeConfirmModal}
+        />
+      )}
+
+      {showAlert && (
+        <AlertModal message={alertMessage} onClose={closeAlertModal} />
+      )}
+    </>
+  );
+};
+
+export default Selected;

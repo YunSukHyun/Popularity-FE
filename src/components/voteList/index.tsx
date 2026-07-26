@@ -1,20 +1,20 @@
 import styles from "./voteList.module.css";
 import api from "../../service/axios";
-import Vote from "../vote/vote";
-import SkeletonVote from "../skeletonVote/skeletonVote";
+import Vote from "../vote";
+import SkeletonVote from "../skeletonVote";
 import { useEffect, useState } from "react";
 
 type VoteTab = "ongoing" | "closed";
 
 interface VoteItem {
   id: number;
-  icon: string;
+  iconUrl: string;
   title: string;
   endTime: string;
   participantCount: number;
 }
 
-const Tabs = () => {
+const VoteList = () => {
   const [activeTab, setActiveTab] = useState<VoteTab>("ongoing");
   const [votes, setVotes] = useState<VoteItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,10 +25,10 @@ const Tabs = () => {
       const response = await api.get<VoteItem[]>(`/vote/list?type=${type}`);
       const { data } = response;
 
-      const preloadImages = data.map(({ icon }) => {
+      const preloadImages = data.map(({ iconUrl }) => {
         return new Promise((resolve) => {
           const img = new Image();
-          img.src = icon;
+          img.src = iconUrl;
           img.onload = resolve;
           img.onerror = resolve;
         });
@@ -79,11 +79,11 @@ const Tabs = () => {
           ? Array.from({ length: 8 }).map((_, index) => (
               <SkeletonVote key={index} />
             ))
-          : votes.map(({ id, icon, title, endTime, participantCount }) => (
+          : votes.map(({ id, iconUrl, title, endTime, participantCount }) => (
               <Vote
                 key={id}
                 id={id}
-                icon={icon}
+                iconUrl={iconUrl}
                 title={title}
                 endTime={endTime}
                 participantCount={participantCount}
@@ -94,4 +94,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default VoteList;

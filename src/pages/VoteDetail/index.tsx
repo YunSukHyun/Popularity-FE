@@ -1,16 +1,17 @@
 import styles from "./voteDetail.module.css";
 import api from "../../service/axios";
-import Selecting from "../../components/selecting/selecting";
-import Selected from "../../components/selected/selected";
+import Selecting from "../../components/selecting";
+import Selected from "../../components/selected";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import type { VoteInfo } from "../../types/vote";
+import type { SelectedCandidate, VoteInfo } from "../../types/vote";
 
 const VoteDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [backgroundUrl, setBackgroundUrl] = useState("");
   const [voteInfo, setVoteInfo] = useState<VoteInfo | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selection, setSelection] = useState<SelectedCandidate[]>([]);
 
   useEffect(() => {
     const fetchVoteDetail = async () => {
@@ -18,12 +19,12 @@ const VoteDetail = () => {
       try {
         const response = await api.get<VoteInfo>(`/vote/detail/${id}`);
         const { data } = response;
-        setBackgroundUrl(data.background);
+        setBackgroundUrl(data.backgroundUrl);
 
-        const preloadImages = data.candidates.map(({ thumbnail }) => {
+        const preloadImages = data.candidates.map(({ thumbnailUrl }) => {
           return new Promise((resolve) => {
             const img = new Image();
-            img.src = thumbnail;
+            img.src = thumbnailUrl;
             img.onload = resolve;
             img.onerror = resolve;
           });
@@ -31,6 +32,16 @@ const VoteDetail = () => {
         await Promise.all(preloadImages);
         setVoteInfo(data);
         console.log(data);
+
+        if (data.alreadyVoted) {
+          setSelection(
+            data.mySelections.map((candidate) => ({
+              id: candidate.id,
+              name: candidate.name,
+              url: candidate.thumbnailUrl,
+            })),
+          );
+        }
       } catch (error) {
         console.error("Error fetching votes:", error);
       } finally {
@@ -52,8 +63,21 @@ const VoteDetail = () => {
         style={{ backgroundImage: `url(${backgroundUrl})` }}
       />
       <div className={styles.container}>
-        <Selecting voteInfo={voteInfo} loading={loading} />
-        {voteInfo && <Selected voteId={id} voteMethod={voteInfo.voteMethod} />}
+        <Selecting
+          voteInfo={voteInfo}
+          loading={loading}
+          selection={selection}
+          setSelection={setSelection}
+        />
+        {voteInfo && (
+          <Selected
+            voteId={id}
+            voteMethod={voteInfo.voteMethod}
+            selection={selection}
+            setSelection={setSelection}
+            alreadyVoted={voteInfo.alreadyVoted}
+          />
+        )}
       </div>
     </section>
   );

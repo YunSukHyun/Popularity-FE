@@ -3,16 +3,18 @@ export type VoteMethod = "SELECT1" | "SELECT3" | "SELECT6";
 export interface Candidate {
   id: string;
   name: string;
-  thumbnail: string;
+  thumbnailUrl: string;
 }
 
 export interface VoteInfo {
   id: string;
   title: string;
-  background: string;
+  backgroundUrl: string;
   endTime: string;
   voteMethod: VoteMethod;
   candidates: Candidate[];
+  alreadyVoted: boolean;
+  mySelections: Candidate[];
 }
 
 export interface VoteListItem {
@@ -21,6 +23,13 @@ export interface VoteListItem {
   icon: string;
   endTime: string;
   participantCount: number;
+}
+
+export interface VoteResultItem {
+  candidateId: number;
+  candidateName: string;
+  thumbnailUrl: string;
+  totalScore: number;
 }
 
 export interface SelectedCandidate {
