@@ -5,6 +5,7 @@ import GoogleOAuth from "../../common/googleOAuth";
 import api from "../../service/axios";
 import { useMemo, useState } from "react";
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
+import { useAuth } from "../../context";
 
 type VoteMethod = "SELECT1" | "SELECT3" | "SELECT6";
 
@@ -32,6 +33,7 @@ const voteMethod: { value: VoteMethod; label: string }[] = [
 ];
 
 const Uploader = ({ formData, setFormData }: UploaderProps) => {
+  const { user } = useAuth();
   const [uploading, setUploading] = useState<boolean>(false);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
@@ -238,7 +240,7 @@ const Uploader = ({ formData, setFormData }: UploaderProps) => {
           )}
         </section>
 
-        {localStorage.getItem("token") ? (
+        {user ? (
           <button className={styles.button} type="submit" disabled={uploading}>
             투표 등록
           </button>

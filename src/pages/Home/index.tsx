@@ -5,6 +5,7 @@ import { useAuth } from "../../context";
 
 import VoteList from "../../components/voteList";
 import { Link } from "react-router-dom";
+import ChatCloud from "../../components/chatCloud";
 
 const Home = () => {
   const { user } = useAuth();
@@ -13,7 +14,15 @@ const Home = () => {
     <div className={styles.home}>
       <Link to={"/admin"}>Admin</Link>
       <VoteList />
-      {!user && <GoogleOAuth />}
+      {!user ? (
+        <GoogleOAuth />
+      ) : (
+        <ChatCloud
+          pageId="home"
+          userId={user?.id?.toString() ?? "guest"}
+          nickname={user?.name ?? "Guest"}
+        />
+      )}
     </div>
   );
 };

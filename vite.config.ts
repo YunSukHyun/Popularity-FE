@@ -5,6 +5,13 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   base: "/",
   plugins: [react()],
+  define: {
+    global: "globalThis",
+  },
+
+  optimizeDeps: {
+    include: ["sockjs-client"],
+  },
   build: {
     sourcemap: true,
   },
